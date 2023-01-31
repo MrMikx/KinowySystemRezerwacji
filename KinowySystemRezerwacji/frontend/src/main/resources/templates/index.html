@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<p sec:authorize="!isAuthenticated()">
+    <a href="/login" type="button" class="btn btn-success">Zaloguj się</a>
+</p>
+
+<p sec:authorize="isAuthenticated()">
+    <a href="/logout" type="button" class="btn btn-warning">Wyloguj</a>
+
+    <span sec:authorize="hasRole('admin')">
+        <a href="/movies/add" type="button" class="btn btn-secondary">Dodaj film</a>
+        <a href="/movies/programme/addForm" type="button" class="btn btn-secondary">Dodaj projekcje</a>
+    </span>
+</p>
+
+<table class="table table-dark table-hover table-striped">
+    <thead>
+    <tr>
+        <td></td>
+        <td>Tytuł</td>
+        <td>Kategorie</td>
+        <td>Długość</td>
+        <td>Ograniczenie</td>
+        <td>Premiera</td>
+        <td>Opis</td>
+        <td>Rezerwuj</td>
+
+        <div sec:authorize="hasRole('admin')">
+            <td>Edytuj</td>
+            <td>Usuń</td>
+        </div>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="movie: ${movies}">
+        <td><img th:src="${movie.imageUrl}" onerror="this.src='https://via.placeholder.com/250x375';" alt="poster">
+        </td>
+        <td th:text="${movie.title}"></td>
+        <td th:text="${movie.category}"></td>
+        <td th:text="${movie.length} + ' min'"></td>
+        <td th:text="'Od: ' + ${movie.age} + ' lat'"></td>
+        <td th:text="${movie.releaseDate}"></td>
+        <td th:text="${movie.description}" class="description"></td>
+        <td class="options">
+            <a th:href="@{'movies/programme/' + ${movie.id}}" type="button" class="btn btn-success">Rezerwuj</a>
+        </td>
+
+        <div sec:authorize="hasRole('admin')">
+            <td class="options">
+                <a th:href="@{'movies/edit/' + ${movie.id}}" type="button" class="btn btn-warning">Edytuj</a>
+            </td>
+            <td class="options">
+                <a th:href="@{'movie/delete/' + ${movie.id}}" type="button" class="btn btn-danger">Usun</a>
+            </td>
+        </div>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

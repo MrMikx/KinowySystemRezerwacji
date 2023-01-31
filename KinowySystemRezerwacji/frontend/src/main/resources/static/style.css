@@ -1,0 +1,99 @@
+body {
+    background-color: #666666;
+    width: 95%;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#form-table-movie-add {
+    margin: auto;
+    width: 40%;
+}
+
+#form-table-movie-edit {
+    margin: auto;
+    width: 50%;
+}
+
+#form-table-programme {
+    margin: auto;
+    width: 20%;
+}
+
+#form {
+    text-align: center;
+}
+
+.reservation {
+    color: white;
+    text-align: center;
+}
+
+.reservation-inner {
+    display: inline-block;
+}
+
+.row {
+    display: flex;
+    margin-left:-5px;
+    margin-right:-5px;
+}
+
+.column {
+    flex: 50%;
+    padding: 5px;
+}
+
+input[type=text], input[type=number] {
+    width: 100%;
+}
+
+.screening-room, .screening-room td, .screening-room tr {
+    border-collapse: collapse;
+    border: 1px black solid;
+}
+
+img {
+    height: 375px;
+    width: 250px;
+}
+
+table, tr, td {
+    text-align: center;
+}
+
+td {
+    padding: 5px;
+}
+
+.description {
+    width: 25%;
+    text-align: left;
+}
+
+.options {
+    width: 3%
+}
+
+hr {
+    width: 20%;
+    color: black;
+    float: left;
+}
+
+input[type=checkbox]:before {
+    content: "";
+    width: 15px;
+    height: 19px;
+    display: inline-block;
+    background-color: white;
+}
+
+input[type=checkbox]:checked:before {
+    background-color: lime;
+}
+
+input[type=checkbox].redAfter:checked:before {
+    background-color: red;
+}

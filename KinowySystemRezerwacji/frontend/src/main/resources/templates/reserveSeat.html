@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Seat Reservation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<h1 th:text="${reservationInfo.title}"></h1>
+<h4 th:text="${reservationInfo.date} + ' ' + ${reservationInfo.time}"></h4>
+
+<div class="reservation">
+    <div class="reservation-inner">
+        <form th:action="@{'/reserve/save'}" th:object="${reservedSeats}" method="post">
+            <table class="screening-room">
+                <tr>
+                    <td colspan="11">
+                        <p>E K R A N</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <th:block th:each="number : ${#numbers.sequence(1,7)}">
+                        <td th:text="${number}"></td>
+                        <td th:if="${number == 3 or number == 7}" rowspan="8">schody</td>
+                    </th:block>
+                </tr>
+
+                <tr th:each="row, iStat : ${rows}">
+                    <th:block th:each="number: ${#numbers.sequence(1, 7)}">
+                        <td th:if="${number == 1}" th:text="${row}"></td>
+                        <td>
+                            <input th:field="*{map[__${row + number}__]}"
+                                   th:disabled="*{map[__${row + number}__]}"
+                                   type="checkbox"
+                                   th:classappend="*{map[__${row + number}__]} ? redAfter : greenAfter"
+                                   value="true">
+                        </td>
+                    </th:block>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td style="background-color: red"></td>
+                    <td>Zajęte miejsca</td>
+                    <td style="width: 40px"></td>
+                    <td style="background-color: lime"></td>
+                    <td>Twoje miejsca</td>
+                </tr>
+            </table>
+
+            <br>
+
+            <table>
+                <tr>
+                    <td colspan="2">Proszę podać swoje dane:</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Imie:</span>
+                            <input class="form-control" type="text" th:value="${reservationInfo.name}" name="name"
+                                   required>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon2">Nazwisko:</span>
+                            <input class="form-control" type="text" th:value="${reservationInfo.surname}"
+                                   name="surname"
+                                   required>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">E-mail:</span>
+                            <input class="form-control" type="email" th:value="${reservationInfo.email}"
+                                   name="email"
+                                   required>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon4">Numer telefonu:</span>
+                            <input class="form-control" th:value="${reservationInfo.phone}" name="phone" required>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" th:value="${reservationInfo.id}" name="id">
+            <input type="hidden" th:value="${reservationInfo.movieId}" name="movieId">
+
+            <input class="btn btn-info" type="submit" value="Zarezerwuj">
+        </form>
+    </div>
+</div>
+</body>
+</html>
